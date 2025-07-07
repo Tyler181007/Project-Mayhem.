@@ -1,0 +1,43 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { Sidebar } from "./components/Sidebar";
+import { Dashboard } from "./components/Dashboard";
+import { Login } from "./components/Login";
+import { Signup } from "./components/Signup";
+import { Assignments } from "./components/Assignments";
+import { Trackers } from "./components/Trackers";
+import { Settings } from "./components/Settings";
+import { Help } from "./components/Help";
+import { YoutubeWidget } from "./components/YoutubeWidget";
+import { TopRightImage } from "./components/TopRightImage";
+
+function PrivateRoute({ children }) {
+  const { user } = useAuth();
+  return user ? children : <Navigate to="/login" replace />;
+}
+
+export default function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <div className="min-h-screen flex bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white font-sans">
+          <Sidebar />
+          <main className="flex-1 p-4 md:p-8 overflow-y-auto">
+            <Routes>
+              <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/assignments" element={<PrivateRoute><Assignments /></PrivateRoute>} />
+              <Route path="/trackers" element={<PrivateRoute><Trackers /></PrivateRoute>} />
+              <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/youtube" element={<YoutubeWidget />} />
+            </Routes>
+          </main>
+          <TopRightImage />
+        </div>
+      </AuthProvider>
+    </Router>
+  );
+}

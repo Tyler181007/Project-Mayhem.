@@ -1,0 +1,78 @@
+import React, { useEffect, useState } from "react";
+import { db } from "../firebase";
+import { collection, addDoc, updateDoc, doc, query, where, onSnapshot, orderBy } from "firebase/firestore";
+import { useAuth } from "../context/AuthContext";
+import { Check } from "lucide-react";
+
+export function Assignments() {
+  const { user } = useAuth();
+  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState("");
+
+  useEffect(() => {
+    if (!user) return;
+    const q = query(
+      collection(db, "assignments"),
+      where("email", "==", user.email),
+      orderBy("createdAt", "desc")
+    );
+    const unsub = onSnapshot(q, (snap) => {
+      setTasks(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+    });
+    return () => unsub();
+  }, [user]);
+
+  async function addTask(e) {
+    e.preventDefault();
+    if (!task) return;
+    await addDoc(collection(db, "assignments"), {
+      email: user.email,
+      text: task,
+      done: false,
+      createdAt: Date.now()
+    });
+    setTask("");
+  }
+
+  async function toggleDone(id, done) {
+    await updateDoc(doc(db, "assignments", id), { done: !done });
+  }
+
+  return (
+    <div className="max-w-lg mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Assignments / Tasks</h1>
+      <form onSubmit={addTask} className="flex gap-2 mb-4">
+        <input
+          className="flex-1 bg-gray-800 border border-gray-700 rounded p-2 text-sm text-white"
+          placeholder="Add a task..."
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          required
+        />
+        <button className="bg-blue-700 hover:bg-blue-800 text-white px-4 rounded font-bold" type="submit">
+          Add
+        </button>
+      </form>
+      <ul className="space-y-2">
+        {tasks.map((t) => (
+          <li
+            key={t.id}
+            className={`flex items-center gap-2 bg-gray-800/60 rounded px-3 py-2 ${
+              t.done ? "opacity-60" : ""
+            }`}
+          >
+            <button
+              onClick={() => toggleDone(t.id, t.done)}
+              className={`rounded-full border border-gray-700 w-6 h-6 flex items-center justify-center mr-2 ${
+                t.done ? "bg-green-600 text-white" : "bg-black"
+              }`}
+            >
+              {t.done && <Check size={16} />}
+            </button>
+            <span className={`flex-1 ${t.done ? "line-through text-gray-400" : ""}`}>{t.text}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}

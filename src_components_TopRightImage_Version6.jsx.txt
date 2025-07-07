@@ -1,0 +1,13 @@
+import React from "react";
+import image1 from "../assets/image1.png";
+
+export function TopRightImage() {
+  return (
+    <img
+      src={image1}
+      alt="Top Right Avatar"
+      className="fixed top-4 right-4 z-50 w-20 h-20 rounded-full shadow-xl border-2 border-gray-800 object-cover"
+      style={{ pointerEvents: "none" }}
+    />
+  );
+}

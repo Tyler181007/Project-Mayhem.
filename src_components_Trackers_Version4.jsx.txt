@@ -1,0 +1,19 @@
+import React from "react";
+import { HabitTracker } from "./HabitTracker";
+import { Calendar } from "./Calendar";
+
+export function Trackers() {
+  return (
+    <div className="max-w-2xl mx-auto space-y-8">
+      <h1 className="text-2xl font-bold mb-4">Trackers</h1>
+      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-xl p-6 shadow-md">
+        <h2 className="text-lg font-semibold mb-2">Habit Tracker</h2>
+        <HabitTracker />
+      </div>
+      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-xl p-6 shadow-md">
+        <h2 className="text-lg font-semibold mb-2">Calendar</h2>
+        <Calendar />
+      </div>
+    </div>
+  );
+}

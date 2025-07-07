@@ -1,0 +1,50 @@
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { Moon, Sun } from "lucide-react";
+
+export function Settings() {
+  const { user } = useAuth();
+  const [theme, setTheme] = useState("dark");
+  const [username, setUsername] = useState(user?.email?.split("@")[0] || "");
+
+  // Dummy theme change (could persist to localStorage)
+  function handleThemeChange(e) {
+    setTheme(e.target.value);
+    document.documentElement.classList.toggle("dark", e.target.value === "dark");
+  }
+
+  return (
+    <div className="max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-6">Settings</h1>
+      <div className="space-y-4">
+        <div>
+          <label className="text-sm">Username</label>
+          <input
+            className="w-full bg-gray-800 rounded p-2 text-white border border-gray-700 mt-1"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="text-sm">Theme</label>
+          <select
+            className="w-full bg-gray-800 rounded p-2 text-white border border-gray-700 mt-1"
+            value={theme}
+            onChange={handleThemeChange}
+          >
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+          </select>
+          <div className="mt-2 flex gap-2">
+            <span className="text-xs text-gray-400">Current:</span>
+            {theme === "dark" ? (
+              <span className="flex items-center gap-1"><Moon size={14} /> Dark</span>
+            ) : (
+              <span className="flex items-center gap-1"><Sun size={14} /> Light</span>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

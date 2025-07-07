@@ -1,0 +1,22 @@
+import React from "react";
+import { HelpCircle } from "lucide-react";
+
+export function Help() {
+  return (
+    <div className="max-w-lg mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-xl p-8 shadow-md">
+      <div className="flex items-center gap-2 mb-4">
+        <HelpCircle size={24} className="text-blue-400" />
+        <h1 className="text-2xl font-bold">Help & Instructions</h1>
+      </div>
+      <ul className="list-disc ml-6 mt-2 text-gray-300 space-y-2 text-sm">
+        <li>Login or sign up using your email (OTP is always <b>123456</b> for demo).</li>
+        <li>Dashboard shows your time left in the 50-year journey, habits, and calendar.</li>
+        <li>Track habits with logs (e.g., “Deep work 2hr”) — pie chart shows proportion.</li>
+        <li>Add tasks in Assignments and mark them done to strike-through.</li>
+        <li>Change your username and theme in Settings.</li>
+        <li>For visualizing progress, habits and tasks are saved in Firestore (dummy API).</li>
+        <li>Sidebar is collapsible. Use the YouTube widget for extra resources.</li>
+      </ul>
+    </div>
+  );
+}

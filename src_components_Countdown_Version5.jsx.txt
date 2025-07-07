@@ -1,0 +1,31 @@
+import React, { useState, useEffect } from "react";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+dayjs.extend(duration);
+
+// Calculate the timestamp for 50 years from now
+const END_DATE = dayjs().add(50, "year");
+
+export function Countdown() {
+  const [remaining, setRemaining] = useState(dayjs.duration(END_DATE.diff(dayjs())));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRemaining(dayjs.duration(END_DATE.diff(dayjs())));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (remaining.asMilliseconds() <= 0) return <div className="text-lg text-red-500">Time's up!</div>;
+
+  return (
+    <div className="text-2xl font-mono tracking-wider flex flex-wrap gap-3">
+      <span>{remaining.years()}<span className="text-xs">y</span></span>
+      <span>{remaining.months()}<span className="text-xs">m</span></span>
+      <span>{remaining.days()}<span className="text-xs">d</span></span>
+      <span>{remaining.hours()}<span className="text-xs">h</span></span>
+      <span>{remaining.minutes()}<span className="text-xs">m</span></span>
+      <span>{remaining.seconds()}<span className="text-xs">s</span></span>
+    </div>
+  );
+}

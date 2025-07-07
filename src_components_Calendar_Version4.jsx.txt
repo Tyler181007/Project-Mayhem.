@@ -1,0 +1,35 @@
+import React from "react";
+import dayjs from "dayjs";
+
+export function Calendar() {
+  // Simple calendar grid for current month
+  const start = dayjs().startOf("month");
+  const end = dayjs().endOf("month");
+  const days = [];
+  for (let d = start.date(1); d.isBefore(end) || d.isSame(end); d = d.add(1, "day")) {
+    days.push(d);
+  }
+  const firstDay = start.day();
+  const today = dayjs();
+
+  return (
+    <div className="grid grid-cols-7 gap-1 text-center text-xs font-mono">
+      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((w) => (
+        <span className="font-bold text-gray-400" key={w}>{w}</span>
+      ))}
+      {Array(firstDay).fill(null).map((_, i) => <span key={"pad" + i}></span>)}
+      {days.map((d) => (
+        <span
+          key={d.format("YYYY-MM-DD")}
+          className={`rounded p-1 ${
+            d.isSame(today, "day")
+              ? "bg-green-500 text-black font-bold"
+              : "bg-gray-800 text-gray-300"
+          }`}
+        >
+          {d.date()}
+        </span>
+      ))}
+    </div>
+  );
+}

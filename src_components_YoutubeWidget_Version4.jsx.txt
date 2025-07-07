@@ -1,0 +1,35 @@
+import React from "react";
+import { Youtube } from "lucide-react";
+
+export function YoutubeWidget() {
+  return (
+    <div className="max-w-xl mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-xl p-8 shadow-md mt-8">
+      <div className="flex items-center gap-2 mb-4">
+        <Youtube size={24} className="text-red-500" />
+        <h1 className="text-2xl font-bold">YouTube Channel Widget</h1>
+      </div>
+      <div className="rounded overflow-hidden shadow-lg bg-black">
+        <iframe
+          width="100%"
+          height="350"
+          src="https://www.youtube.com/embed?listType=user_uploads&list=UC9w3oJT9Z5uU6xTIbH1gBaw"
+          title="YouTube Channel"
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+        ></iframe>
+      </div>
+      <div className="mt-2 text-sm text-gray-400">
+        Watch more on&nbsp;
+        <a
+          href="https://youtube.com/@tylerdurden-15-10"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-red-400"
+        >
+          @tylerdurden-15-10
+        </a>
+      </div>
+    </div>
+  );
+}
